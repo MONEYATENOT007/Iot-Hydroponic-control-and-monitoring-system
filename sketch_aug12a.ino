@@ -118,11 +118,11 @@ void sendSensorData() {
 
   // Always active automatic control for RELAY1 based on temperature
   if (temperature < 25) {
-    digitalWrite(RELAY1_PIN, HIGH);
-    relay1State = HIGH;
-  } else if (temperature > 40) {
     digitalWrite(RELAY1_PIN, LOW);
     relay1State = LOW;
+  } else if (temperature > 40) {
+    digitalWrite(RELAY1_PIN, HIGH);
+    relay1State = HIGH;
   }
 
   // Always active automatic control for RELAY2 based on humidity
@@ -136,13 +136,17 @@ void sendSensorData() {
 
   // Always active automatic control for RELAY3 based on soil moisture and water level
   if (waterLevel > 0) { // Adjust threshold as needed
-    if (soilMoistureValue < 30 ) { // Adjust soil moisture threshold as needed
-      digitalWrite(RELAY3_PIN, HIGH);
-      relay3State = HIGH;
-    } else if(soilMoistureValue > 80){
+    if (soilMoistureValue < 10 ) { // Adjust soil moisture threshold as needed
       digitalWrite(RELAY3_PIN, LOW);
       relay3State = LOW;
+    } else if(soilMoistureValue > 50){
+      digitalWrite(RELAY3_PIN, HIGH);
+      relay3State = HIGH;
     }
+  }else if(waterLevel == 0)
+  {
+    digitalWrite(RELAY3_PIN, HIGH);
+    relay3State = HIGH;
   } 
 }
 
